@@ -16,3 +16,16 @@ coverage/
 
 dist/
 frontend/*.roto-*
+
+# Backups locales
+frontend/*.bak*
+frontend/*.backup*
+frontend/*.roto-*
+
+frontend/admin/*.bak*
+frontend/admin/*.backup*
+
+backend/*.bak*
+
+backups/
+releases/
