@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+<stop stop-color="#21104a"/>
+<stop offset=".45" stop-color="#8b4a18"/>
+<stop offset="1" stop-color="#08040a"/>
+</linearGradient>
+<radialGradient id="sun" cx="50%" cy="28%" r="35%">
+<stop stop-color="#ffe08a"/>
+<stop offset=".35" stop-color="#d48a2a"/>
+<stop offset="1" stop-color="transparent"/>
+</radialGradient>
+</defs>
+<rect width="1920" height="1080" fill="url(#sky)"/>
+<rect width="1920" height="1080" fill="url(#sun)" opacity=".9"/>
+<polygon points="170,860 450,310 730,860" fill="#1b1020" opacity=".9"/>
+<polygon points="1120,860 1390,360 1660,860" fill="#160d19" opacity=".9"/>
+<rect y="760" width="1920" height="320" fill="#130909"/>
+<g opacity=".18" fill="#ffd66b">
+<circle cx="200" cy="180" r="3"/><circle cx="390" cy="90" r="2"/><circle cx="720" cy="160" r="3"/>
+<circle cx="1200" cy="120" r="2"/><circle cx="1600" cy="210" r="3"/><circle cx="1780" cy="80" r="2"/>
+</g>
+<text x="960" y="135" text-anchor="middle" font-size="86" fill="#ffd66b" font-family="serif" font-weight="bold">LEGACY OF THE NILE</text>
+<text x="960" y="190" text-anchor="middle" font-size="30" fill="#f7dca0" font-family="serif">Tesoro ancestral del faraón</text>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000">
+<rect width="1600" height="1000" fill="#2b1608"/>
+<radialGradient id="s" cx="50%" cy="20%" r="55%">
+<stop offset="0" stop-color="#ffd36a"/>
+<stop offset=".45" stop-color="#8b4a18"/>
+<stop offset="1" stop-color="#140c08"/>
+</radialGradient>
+<rect width="1600" height="1000" fill="url(#s)"/>
+<polygon points="230,760 450,310 670,760" fill="#1c1008"/>
+<polygon points="920,760 1140,330 1360,760" fill="#211209"/>
+<text x="800" y="130" text-anchor="middle" font-size="82" fill="#f8d66b" font-family="serif">LEGACY OF THE NILE</text>
+</svg>

@@ -1,0 +1,17 @@
+backups/
+releases/
+
+frontend/*.bak*
+backend/*.bak*
+
+*.log
+*.tmp
+
+node_modules/
+
+.env
+.env.*
+
+coverage/
+
+dist/

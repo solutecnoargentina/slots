@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+<rect x="8" y="8" width="284" height="284" rx="34" fill="#1f1309" stroke="#d4af37" stroke-width="10"/>
+<circle cx="150" cy="125" r="95" fill="#3b2410"/>
+<text x="150" y="165" text-anchor="middle" font-size="112" font-family="Arial">🔺</text>
+<text x="150" y="245" text-anchor="middle" font-size="24" fill="#f8d66b" font-family="serif">WILD</text>
+</svg>

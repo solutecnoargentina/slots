@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1200">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+<stop stop-color="#2b1439"/>
+<stop offset=".35" stop-color="#9b4f15"/>
+<stop offset="1" stop-color="#050505"/>
+</linearGradient>
+<radialGradient id="sun" cx="50%" cy="22%" r="38%">
+<stop stop-color="#ffd66b"/>
+<stop offset=".4" stop-color="#b96a1a"/>
+<stop offset="1" stop-color="transparent"/>
+</radialGradient>
+</defs>
+<rect width="1600" height="1200" fill="url(#bg)"/>
+<rect width="1600" height="1200" fill="url(#sun)" opacity=".9"/>
+<polygon points="170,760 430,300 690,760" fill="#130b12" opacity=".85"/>
+<polygon points="930,760 1180,330 1430,760" fill="#100812" opacity=".85"/>
+<rect y="760" width="1600" height="440" fill="#090506"/>
+<text x="800" y="115" text-anchor="middle" font-size="82" fill="#ffe08a" font-family="Georgia" font-weight="bold">LEGACY</text>
+<text x="800" y="185" text-anchor="middle" font-size="58" fill="#ffe08a" font-family="Georgia" font-weight="bold">OF THE NILE</text>
+</svg>

@@ -1,0 +1,2924 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Legacy of the Nile</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+font-family:Arial,sans-serif;
+min-height:100vh;
+color:white;
+background:
+linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.85)),
+url('/assets/sprites/fondo.png');
+background-size:cover;
+background-position:center;
+}
+.wrap{max-width:1180px;margin:auto;padding:12px}
+.logo{text-align:center;margin:5px 0 10px}
+.logo img{max-width:420px;width:90%;filter:drop-shadow(0 0 18px #000)}
+.card{
+background:rgba(3,7,18,.88);
+border:3px solid #d4af37;
+border-radius:26px;
+padding:16px;
+box-shadow:0 0 35px #000;
+}
+.login{max-width:430px;margin:40px auto}
+input,select,button{
+width:100%;
+padding:14px;
+margin:8px 0;
+border-radius:14px;
+border:1px solid #d4af37;
+font-size:16px;
+}
+input,select{background:#0f172a;color:white}
+button{
+background:linear-gradient(#fff1a8,#d4af37,#8b5a16);
+color:#160b02;
+font-weight:900;
+border:0;
+cursor:pointer;
+}
+.top{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:10px;
+margin-bottom:12px;
+}
+.stat{
+background:#0f172a;
+border:2px solid #d4af37;
+border-radius:16px;
+text-align:center;
+padding:10px;
+}
+.stat small{display:block;color:#ddd}
+.stat b{font-size:23px;color:#ffe08a}
+.machine{
+position:relative;
+padding:18px;
+border-radius:26px;
+background:rgba(0,0,0,.35);
+border:4px solid #d4af37;
+box-shadow:0 0 30px rgba(212,175,55,.35), inset 0 0 25px #000;
+}
+.reels{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:10px;
+height:390px;
+overflow:hidden;
+}
+.reelCol{
+height:390px;
+overflow:hidden;
+background:rgba(2,6,23,.82);
+border:3px solid #d4af37;
+border-radius:18px;
+position:relative;
+}
+.reelStrip{
+position:absolute;
+left:0;
+right:0;
+top:0;
+will-change:transform;
+}
+.symbol{
+height:130px;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+border-bottom:1px solid rgba(212,175,55,.35);
+}
+.symbol img{
+max-width:92%;
+max-height:112px;
+object-fit:contain;
+filter:drop-shadow(0 0 8px rgba(255,215,0,.45));
+}
+.symbol.win{
+background:rgba(255,224,138,.16);
+box-shadow:inset 0 0 28px #ffe08a;
+}
+.lineLayer{
+position:absolute;
+left:24px;
+right:24px;
+top:18px;
+height:390px;
+pointer-events:none;
+z-index:8;
+}
+.lineLayer svg{width:100%;height:100%}
+.controls{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin-top:14px;
+}
+.betPanel{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin-top:14px;
+}
+.betBox{
+background:#0f172a;
+border:2px solid #d4af37;
+border-radius:16px;
+padding:12px;
+}
+.betBox label{
+display:block;
+text-align:center;
+font-weight:900;
+color:#ffe08a;
+margin-bottom:6px;
+}
+.total{
+text-align:center;
+font-size:22px;
+color:#ffe08a;
+font-weight:900;
+margin-top:10px;
+}
+.msg{
+text-align:center;
+font-size:30px;
+color:#ffe08a;
+font-weight:900;
+min-height:42px;
+margin-top:14px;
+}
+.hidden{display:none}
+.soundBtn{
+position:fixed;
+right:14px;
+top:14px;
+z-index:9999;
+width:54px;
+height:54px;
+border-radius:16px;
+font-size:24px;
+}
+.coinLayer{position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden}
+.coin{position:absolute;top:-50px;font-size:30px;animation:coinFall linear forwards}
+@keyframes coinFall{
+0%{transform:translateY(-80px) rotate(0deg);opacity:1}
+100%{transform:translateY(110vh) rotate(720deg);opacity:0}
+}
+.winCharacter{
+position:fixed;
+left:50%;
+top:48%;
+transform:translate(-50%,-50%);
+z-index:9998;
+background:rgba(0,0,0,.88);
+border:4px solid #ffe08a;
+border-radius:28px;
+padding:22px;
+text-align:center;
+box-shadow:0 0 60px #ffd700;
+animation:popWin 2.4s ease forwards;
+}
+.winCharacter img{max-width:180px;max-height:180px}
+.winCharacter b{display:block;font-size:34px;color:#ffe08a;margin-top:10px}
+@keyframes popWin{
+0%{opacity:0;transform:translate(-50%,-50%) scale(.3)}
+20%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}
+80%{opacity:1}
+100%{opacity:0;transform:translate(-50%,-60%) scale(.85)}
+}
+@media(max-width:700px){
+.top{grid-template-columns:1fr 1fr}
+.reels{height:285px;gap:6px}
+.reelCol{height:285px}
+.symbol{height:95px}
+.symbol img{max-height:82px}
+.lineLayer{height:285px;left:18px;right:18px}
+.betPanel,.controls{grid-template-columns:1fr}
+.msg{font-size:26px}
+}
+
+/* PASO 25 - botón y rodillo reales */
+.machine{
+background:
+linear-gradient(rgba(0,0,0,.18),rgba(0,0,0,.18)),
+url('/assets/sprites/rodillo.png') center/100% 100% no-repeat !important;
+border:0 !important;
+box-shadow:none !important;
+padding:34px !important;
+}
+
+#spinBtn{
+background:
+url('/assets/sprites/boton.png') center/contain no-repeat !important;
+min-height:110px !important;
+color:transparent !important;
+box-shadow:none !important;
+border:0 !important;
+}
+
+#spinBtn::after{
+content:"GIRAR";
+color:#1a1005;
+font-weight:900;
+font-size:28px;
+text-shadow:0 1px 0 #fff6b0;
+}
+
+@media(max-width:700px){
+.machine{
+padding:20px !important;
+}
+#spinBtn{
+min-height:86px !important;
+}
+#spinBtn::after{
+font-size:24px;
+}
+}
+
+
+/* PASO 26 - sin cuadrículas, solo rodillo + sprites */
+.machine{
+background:url('/assets/sprites/rodillo.png') center/100% 100% no-repeat !important;
+border:0 !important;
+box-shadow:none !important;
+padding:38px 34px !important;
+}
+
+.reels{
+gap:4px !important;
+background:transparent !important;
+border:0 !important;
+box-shadow:none !important;
+}
+
+.reelCol{
+background:transparent !important;
+border:0 !important;
+border-radius:0 !important;
+box-shadow:none !important;
+}
+
+.reelStrip{
+background:transparent !important;
+}
+
+.symbol{
+background:transparent !important;
+border:0 !important;
+border-bottom:0 !important;
+box-shadow:none !important;
+border-radius:0 !important;
+}
+
+.symbol img{
+max-width:88% !important;
+max-height:86% !important;
+object-fit:contain !important;
+filter:drop-shadow(0 0 8px rgba(0,0,0,.85)) drop-shadow(0 0 8px rgba(255,215,0,.35)) !important;
+}
+
+.symbol.win{
+background:radial-gradient(circle,rgba(255,224,138,.28),transparent 62%) !important;
+box-shadow:none !important;
+}
+
+.lineLayer{
+left:38px !important;
+right:38px !important;
+}
+
+@media(max-width:700px){
+.machine{
+padding:26px 22px !important;
+}
+.reels{
+gap:2px !important;
+}
+.symbol img{
+max-width:92% !important;
+max-height:88% !important;
+}
+.lineLayer{
+left:24px !important;
+right:24px !important;
+}
+}
+
+
+/* PASO 27 - layout compacto y botón grande sin texto */
+.wrap{
+max-width:1080px !important;
+padding:6px 10px !important;
+}
+
+.logo{
+margin:0 0 4px !important;
+}
+
+.logo img{
+max-width:360px !important;
+width:78% !important;
+}
+
+.card{
+padding:10px !important;
+border-radius:22px !important;
+}
+
+.top{
+gap:8px !important;
+margin-bottom:6px !important;
+}
+
+.stat{
+padding:7px !important;
+border-radius:13px !important;
+}
+
+.stat small{
+font-size:12px !important;
+}
+
+.stat b{
+font-size:20px !important;
+}
+
+.machine{
+margin-top:2px !important;
+padding:24px 22px !important;
+}
+
+.reels{
+height:390px !important;
+}
+
+.reelCol{
+height:390px !important;
+}
+
+.symbol{
+height:130px !important;
+}
+
+.betPanel{
+margin-top:6px !important;
+gap:8px !important;
+}
+
+.betBox{
+padding:7px !important;
+border-radius:12px !important;
+}
+
+.betBox label{
+font-size:13px !important;
+margin-bottom:2px !important;
+}
+
+.betBox input,
+.betBox select{
+padding:9px !important;
+margin:4px 0 !important;
+}
+
+.total{
+margin-top:4px !important;
+font-size:18px !important;
+}
+
+.controls{
+margin-top:4px !important;
+gap:8px !important;
+grid-template-columns:1.4fr .9fr !important;
+align-items:center !important;
+}
+
+#spinBtn{
+min-height:142px !important;
+height:142px !important;
+background:url('/assets/sprites/boton.png') center/contain no-repeat !important;
+color:transparent !important;
+font-size:0 !important;
+box-shadow:none !important;
+border:0 !important;
+padding:0 !important;
+margin:0 !important;
+}
+
+#spinBtn::after{
+content:"" !important;
+display:none !important;
+}
+
+#spinBtn:active{
+transform:scale(.96) !important;
+}
+
+.controls button:not(#spinBtn){
+min-height:70px !important;
+margin:0 !important;
+}
+
+.msg{
+margin-top:4px !important;
+font-size:24px !important;
+min-height:32px !important;
+}
+
+@media(max-width:700px){
+.wrap{
+padding:4px 6px !important;
+}
+.logo img{
+max-width:300px !important;
+width:78% !important;
+}
+.card{
+padding:8px !important;
+}
+.top{
+grid-template-columns:1fr 1fr !important;
+gap:6px !important;
+}
+.stat{
+padding:6px !important;
+}
+.stat b{
+font-size:19px !important;
+}
+.machine{
+padding:18px 14px !important;
+}
+.reels{
+height:300px !important;
+}
+.reelCol{
+height:300px !important;
+}
+.symbol{
+height:100px !important;
+}
+.betPanel{
+grid-template-columns:1fr 1fr !important;
+gap:6px !important;
+}
+.betBox{
+padding:6px !important;
+}
+.betBox label{
+font-size:11px !important;
+}
+.betBox input,
+.betBox select{
+padding:8px !important;
+font-size:14px !important;
+}
+.controls{
+grid-template-columns:1fr !important;
+margin-top:2px !important;
+}
+#spinBtn{
+height:118px !important;
+min-height:118px !important;
+margin-top:-4px !important;
+}
+.controls button:not(#spinBtn){
+min-height:58px !important;
+}
+.msg{
+font-size:22px !important;
+}
+}
+
+
+/* PASO 28 - sprites alineados dentro del rodillo */
+.machine{
+position:relative !important;
+background:url('/assets/sprites/rodillo.png') center/100% 100% no-repeat !important;
+border:0 !important;
+box-shadow:none !important;
+padding:9.5% 8.5% 8.5% 8.5% !important;
+overflow:hidden !important;
+}
+
+.reels{
+height:auto !important;
+aspect-ratio:5 / 3 !important;
+display:grid !important;
+grid-template-columns:repeat(5, 1fr) !important;
+gap:0 !important;
+background:transparent !important;
+border:0 !important;
+box-shadow:none !important;
+overflow:hidden !important;
+}
+
+.reelCol{
+height:100% !important;
+min-height:0 !important;
+background:transparent !important;
+border:0 !important;
+border-radius:0 !important;
+overflow:hidden !important;
+position:relative !important;
+}
+
+.reelStrip{
+position:absolute !important;
+left:0 !important;
+right:0 !important;
+top:0 !important;
+width:100% !important;
+}
+
+.symbol{
+height:auto !important;
+aspect-ratio:1 / 1 !important;
+min-height:0 !important;
+max-height:none !important;
+line-height:normal !important;
+display:flex !important;
+align-items:center !important;
+justify-content:center !important;
+background:transparent !important;
+border:0 !important;
+box-shadow:none !important;
+border-radius:0 !important;
+padding:2% !important;
+overflow:hidden !important;
+}
+
+.symbol img{
+width:88% !important;
+height:88% !important;
+max-width:88% !important;
+max-height:88% !important;
+object-fit:contain !important;
+display:block !important;
+margin:auto !important;
+filter:drop-shadow(0 0 7px rgba(0,0,0,.9)) drop-shadow(0 0 5px rgba(255,215,0,.35)) !important;
+}
+
+.symbol.win{
+background:radial-gradient(circle,rgba(255,224,138,.28),transparent 62%) !important;
+}
+
+.lineLayer{
+left:8.5% !important;
+right:8.5% !important;
+top:9.5% !important;
+height:auto !important;
+aspect-ratio:5 / 3 !important;
+}
+
+@media(max-width:700px){
+.machine{
+padding:10.5% 8.8% 8.8% 8.8% !important;
+}
+.symbol{
+padding:3% !important;
+}
+.symbol img{
+width:90% !important;
+height:90% !important;
+max-width:90% !important;
+max-height:90% !important;
+}
+.lineLayer{
+left:8.8% !important;
+right:8.8% !important;
+top:10.5% !important;
+}
+}
+
+
+/* PASO 29 - eliminar espacio vacío superior */
+body{
+background-position:center top !important;
+}
+
+.wrap{
+max-width:1180px !important;
+padding:0 8px 6px !important;
+}
+
+.logo{
+margin:0 auto -8px !important;
+padding-top:4px !important;
+height:auto !important;
+}
+
+.logo img{
+max-width:330px !important;
+width:70% !important;
+margin-top:0 !important;
+}
+
+.card{
+margin-top:0 !important;
+padding-top:8px !important;
+}
+
+.top{
+margin-top:0 !important;
+margin-bottom:6px !important;
+}
+
+.machine{
+margin-top:0 !important;
+}
+
+.soundBtn{
+top:8px !important;
+right:8px !important;
+width:48px !important;
+height:48px !important;
+}
+
+@media(max-width:700px){
+.wrap{
+padding:0 6px 4px !important;
+}
+
+.logo{
+margin:0 auto -10px !important;
+padding-top:0 !important;
+}
+
+.logo img{
+width:64% !important;
+max-width:260px !important;
+}
+
+.card{
+padding-top:6px !important;
+}
+
+.top{
+margin-bottom:4px !important;
+}
+
+.stat{
+padding:5px !important;
+}
+
+.stat small{
+font-size:11px !important;
+}
+
+.stat b{
+font-size:18px !important;
+}
+
+.machine{
+margin-top:0 !important;
+}
+
+.soundBtn{
+top:8px !important;
+right:8px !important;
+width:46px !important;
+height:46px !important;
+}
+}
+
+
+/* PASO 30 - modo pantalla móvil compacto */
+body{
+background-size:cover !important;
+background-position:center -90px !important;
+}
+
+.wrap{
+max-width:1000px !important;
+padding:0 6px 4px !important;
+}
+
+.logo{
+height:82px !important;
+overflow:hidden !important;
+margin:0 auto -6px !important;
+display:flex !important;
+align-items:flex-start !important;
+justify-content:center !important;
+}
+
+.logo img{
+width:56% !important;
+max-width:260px !important;
+margin-top:-4px !important;
+}
+
+.card{
+padding:6px !important;
+border-radius:18px !important;
+}
+
+.top{
+grid-template-columns:repeat(4,1fr) !important;
+gap:5px !important;
+margin:0 0 4px !important;
+}
+
+.stat{
+padding:5px 4px !important;
+border-radius:11px !important;
+}
+
+.stat small{
+font-size:10px !important;
+line-height:1 !important;
+}
+
+.stat b{
+font-size:16px !important;
+line-height:1.1 !important;
+}
+
+.machine{
+padding:8.5% 7.8% 7.6% 7.8% !important;
+margin-top:0 !important;
+}
+
+.reels{
+aspect-ratio:5/3 !important;
+height:auto !important;
+}
+
+.lineLayer{
+top:8.5% !important;
+left:7.8% !important;
+right:7.8% !important;
+}
+
+.betPanel{
+grid-template-columns:1fr 1fr !important;
+gap:5px !important;
+margin-top:3px !important;
+}
+
+.betBox{
+padding:5px !important;
+border-radius:11px !important;
+}
+
+.betBox label{
+font-size:10px !important;
+margin-bottom:1px !important;
+}
+
+.betBox input,
+.betBox select{
+padding:7px !important;
+font-size:13px !important;
+margin:2px 0 !important;
+}
+
+.total{
+font-size:14px !important;
+margin-top:2px !important;
+}
+
+.controls{
+grid-template-columns:1fr 1fr !important;
+gap:6px !important;
+margin-top:2px !important;
+}
+
+#spinBtn{
+height:92px !important;
+min-height:92px !important;
+margin:0 !important;
+}
+
+.controls button:not(#spinBtn){
+min-height:48px !important;
+font-size:13px !important;
+}
+
+.msg{
+font-size:18px !important;
+min-height:24px !important;
+margin-top:2px !important;
+}
+
+.soundBtn{
+top:4px !important;
+right:6px !important;
+width:42px !important;
+height:42px !important;
+font-size:20px !important;
+}
+
+@media(max-width:700px){
+body{
+background-position:center -115px !important;
+}
+
+.logo{
+height:76px !important;
+margin-bottom:-8px !important;
+}
+
+.logo img{
+width:58% !important;
+max-width:240px !important;
+margin-top:-8px !important;
+}
+
+.card{
+padding:5px !important;
+}
+
+.machine{
+padding:8.2% 7.4% 7.2% 7.4% !important;
+}
+
+.symbol img{
+width:84% !important;
+height:84% !important;
+max-width:84% !important;
+max-height:84% !important;
+}
+
+.lineLayer{
+top:8.2% !important;
+left:7.4% !important;
+right:7.4% !important;
+}
+
+#spinBtn{
+height:82px !important;
+min-height:82px !important;
+}
+
+.controls button:not(#spinBtn){
+min-height:44px !important;
+}
+
+.betBox input,
+.betBox select{
+height:34px !important;
+}
+}
+
+@media(max-height:760px){
+.logo{
+height:62px !important;
+}
+
+.logo img{
+max-width:210px !important;
+margin-top:-10px !important;
+}
+
+.top{
+gap:4px !important;
+}
+
+.stat{
+padding:4px !important;
+}
+
+.stat b{
+font-size:15px !important;
+}
+
+.machine{
+padding:7.4% 7.2% 6.8% 7.2% !important;
+}
+
+#spinBtn{
+height:72px !important;
+min-height:72px !important;
+}
+
+.msg{
+font-size:16px !important;
+}
+}
+
+
+/* PASO 31 - logo visible animado */
+.logo{
+height:96px !important;
+overflow:visible !important;
+margin:0 auto 2px !important;
+padding-top:4px !important;
+display:flex !important;
+align-items:center !important;
+justify-content:center !important;
+position:relative !important;
+z-index:5 !important;
+}
+
+.logo img{
+display:block !important;
+width:70% !important;
+max-width:330px !important;
+margin:0 auto !important;
+opacity:1 !important;
+visibility:visible !important;
+filter:drop-shadow(0 0 12px #000) drop-shadow(0 0 16px rgba(255,215,0,.65)) !important;
+animation:logoPulse 2.8s ease-in-out infinite !important;
+}
+
+@keyframes logoPulse{
+0%{transform:scale(1);filter:drop-shadow(0 0 10px #000) drop-shadow(0 0 10px rgba(255,215,0,.35))}
+50%{transform:scale(1.045);filter:drop-shadow(0 0 12px #000) drop-shadow(0 0 24px rgba(255,215,0,.9))}
+100%{transform:scale(1);filter:drop-shadow(0 0 10px #000) drop-shadow(0 0 10px rgba(255,215,0,.35))}
+}
+
+@media(max-width:700px){
+.logo{
+height:82px !important;
+margin:0 auto 0 !important;
+padding-top:2px !important;
+}
+
+.logo img{
+width:72% !important;
+max-width:290px !important;
+margin-top:0 !important;
+}
+}
+
+@media(max-height:760px){
+.logo{
+height:72px !important;
+}
+
+.logo img{
+max-width:250px !important;
+width:68% !important;
+margin-top:0 !important;
+}
+}
+
+
+/* PASO 32 - logo completo + rodillo 19% más alto */
+.logo{
+height:118px !important;
+overflow:visible !important;
+padding-top:18px !important;
+margin:0 auto 4px !important;
+}
+
+.logo img{
+width:72% !important;
+max-width:340px !important;
+margin-top:0 !important;
+}
+
+.machine{
+transform:scaleY(1.19) !important;
+transform-origin:top center !important;
+margin-bottom:58px !important;
+}
+
+@media(max-width:700px){
+.logo{
+height:104px !important;
+padding-top:18px !important;
+margin-bottom:2px !important;
+}
+
+.logo img{
+width:76% !important;
+max-width:300px !important;
+}
+
+.machine{
+transform:scaleY(1.19) !important;
+margin-bottom:48px !important;
+}
+}
+
+@media(max-height:760px){
+.logo{
+height:94px !important;
+padding-top:16px !important;
+}
+
+.logo img{
+max-width:270px !important;
+width:72% !important;
+}
+
+.machine{
+margin-bottom:42px !important;
+}
+}
+
+
+/* PASO 33 - logo completo y rodillo con sprites dentro */
+.logo{
+height:142px !important;
+overflow:visible !important;
+padding-top:38px !important;
+margin:0 auto 0 !important;
+}
+
+.logo img{
+width:68% !important;
+max-width:300px !important;
+margin-top:0 !important;
+object-fit:contain !important;
+}
+
+.machine{
+transform:scaleY(1.08) !important;
+transform-origin:top center !important;
+padding:13.5% 10.5% 12.5% 10.5% !important;
+margin-bottom:42px !important;
+}
+
+.reels{
+transform:scale(.92) !important;
+transform-origin:center center !important;
+}
+
+.symbol img{
+width:76% !important;
+height:76% !important;
+max-width:76% !important;
+max-height:76% !important;
+}
+
+.lineLayer{
+top:13.5% !important;
+left:10.5% !important;
+right:10.5% !important;
+transform:scale(.92) !important;
+transform-origin:center center !important;
+}
+
+@media(max-width:700px){
+.logo{
+height:132px !important;
+padding-top:36px !important;
+}
+
+.logo img{
+width:70% !important;
+max-width:270px !important;
+}
+
+.machine{
+transform:scaleY(1.08) !important;
+padding:14% 11% 13% 11% !important;
+margin-bottom:38px !important;
+}
+
+.reels{
+transform:scale(.90) !important;
+}
+
+.symbol img{
+width:74% !important;
+height:74% !important;
+max-width:74% !important;
+max-height:74% !important;
+}
+
+.lineLayer{
+top:14% !important;
+left:11% !important;
+right:11% !important;
+transform:scale(.90) !important;
+}
+}
+
+@media(max-height:760px){
+.logo{
+height:124px !important;
+padding-top:34px !important;
+}
+
+.logo img{
+max-width:250px !important;
+width:68% !important;
+}
+
+.machine{
+margin-bottom:34px !important;
+}
+}
+
+
+/* PASO 34 - sprites más grandes + cuadrícula sutil */
+.reels{
+position:relative !important;
+}
+
+.reels::before{
+content:"" !important;
+position:absolute !important;
+inset:0 !important;
+z-index:1 !important;
+pointer-events:none !important;
+background:
+linear-gradient(to right,
+ transparent 0%,
+ transparent 19.7%,
+ rgba(255,215,120,.18) 20%,
+ transparent 20.3%,
+ transparent 39.7%,
+ rgba(255,215,120,.18) 40%,
+ transparent 40.3%,
+ transparent 59.7%,
+ rgba(255,215,120,.18) 60%,
+ transparent 60.3%,
+ transparent 79.7%,
+ rgba(255,215,120,.18) 80%,
+ transparent 80.3%),
+linear-gradient(to bottom,
+ transparent 0%,
+ transparent 32.7%,
+ rgba(255,215,120,.16) 33.3%,
+ transparent 33.9%,
+ transparent 65.8%,
+ rgba(255,215,120,.16) 66.6%,
+ transparent 67.2%);
+box-shadow:inset 0 0 28px rgba(0,0,0,.75) !important;
+}
+
+.reelCol{
+z-index:2 !important;
+}
+
+.symbol img{
+width:86% !important;
+height:86% !important;
+max-width:86% !important;
+max-height:86% !important;
+object-fit:contain !important;
+}
+
+.reels{
+transform:scale(.96) !important;
+transform-origin:center center !important;
+}
+
+.lineLayer{
+transform:scale(.96) !important;
+transform-origin:center center !important;
+}
+
+@media(max-width:700px){
+.symbol img{
+width:84% !important;
+height:84% !important;
+max-width:84% !important;
+max-height:84% !important;
+}
+
+.reels{
+transform:scale(.95) !important;
+}
+
+.lineLayer{
+transform:scale(.95) !important;
+}
+}
+
+
+/* PASO 35 - cofre y monedas por WILD */
+.treasureChest{
+position:absolute;
+right:8px;
+top:84px;
+width:82px;
+height:82px;
+z-index:20;
+background-image:url('/assets/sprites/cofre.png');
+background-size:200% 100%;
+background-position:left center;
+background-repeat:no-repeat;
+filter:drop-shadow(0 0 12px rgba(255,215,0,.65));
+}
+
+.treasureChest.hit{
+background-position:right center;
+animation:chestHit .7s ease;
+}
+
+@keyframes chestHit{
+0%{transform:scale(1)}
+35%{transform:scale(1.18) rotate(-4deg)}
+70%{transform:scale(1.05) rotate(3deg)}
+100%{transform:scale(1)}
+}
+
+.flyCoin{
+position:fixed;
+width:44px;
+height:44px;
+z-index:9998;
+background-image:url('/assets/sprites/moneda.png');
+background-size:200% 100%;
+background-position:left center;
+background-repeat:no-repeat;
+filter:drop-shadow(0 0 10px rgba(255,215,0,.85));
+pointer-events:none;
+}
+
+.flyCoin.glow{
+background-position:right center;
+}
+
+@media(max-width:700px){
+.treasureChest{
+right:8px;
+top:76px;
+width:64px;
+height:64px;
+}
+.flyCoin{
+width:34px;
+height:34px;
+}
+}
+
+
+/* PASO 36 - menú jugador */
+.playerMenuBtn{
+position:fixed;
+left:10px;
+top:10px;
+z-index:10000;
+width:52px;
+height:52px;
+border-radius:14px;
+font-size:26px;
+padding:0;
+box-shadow:0 0 18px rgba(212,175,55,.45);
+}
+
+.sideOverlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.55);
+z-index:10001;
+display:none;
+}
+
+.sideMenu{
+position:fixed;
+left:0;
+top:0;
+bottom:0;
+width:min(88vw,360px);
+background:linear-gradient(180deg,#111827,#030712);
+border-right:3px solid #d4af37;
+z-index:10002;
+transform:translateX(-105%);
+transition:.25s ease;
+padding:16px;
+overflow:auto;
+box-shadow:0 0 35px #000;
+}
+
+.sideMenu.open{
+transform:translateX(0);
+}
+
+.sideOverlay.open{
+display:block;
+}
+
+.sideMenu h2{
+color:#ffe08a;
+margin-top:0;
+}
+
+.menuItem{
+background:#0f172a;
+border:1px solid #d4af37;
+border-radius:14px;
+padding:12px;
+margin:10px 0;
+}
+
+.menuItem h3{
+margin:0 0 8px;
+color:#ffe08a;
+}
+
+.menuItem p{
+margin:4px 0;
+font-size:14px;
+color:#d1d5db;
+}
+
+.payRow{
+display:grid;
+grid-template-columns:54px 1fr;
+gap:10px;
+align-items:center;
+border-bottom:1px solid rgba(212,175,55,.25);
+padding:8px 0;
+}
+
+.payRow img{
+width:48px;
+height:48px;
+object-fit:contain;
+filter:drop-shadow(0 0 6px rgba(255,215,0,.4));
+}
+
+.requestList{
+font-size:13px;
+background:#020617;
+border-radius:10px;
+padding:8px;
+margin-top:8px;
+max-height:220px;
+overflow:auto;
+}
+
+.closeMenuBtn{
+background:#374151 !important;
+color:white !important;
+box-shadow:none !important;
+}
+
+
+/* PASO 38 - contador del cofre */
+.treasureWrap{
+position:absolute;
+right:8px;
+top:84px;
+display:flex;
+align-items:center;
+gap:8px;
+z-index:21;
+}
+
+.treasureChest{
+position:relative !important;
+right:auto !important;
+top:auto !important;
+flex-shrink:0;
+}
+
+.chestCounter{
+min-width:82px;
+height:42px;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:0 12px;
+border-radius:14px;
+background:rgba(3,7,18,.88);
+border:2px solid #d4af37;
+color:#ffe08a;
+font-weight:900;
+font-size:20px;
+box-shadow:0 0 12px rgba(255,215,0,.25);
+}
+
+.chestCounter.ready{
+animation:bonusReady 1s ease-in-out infinite;
+}
+
+@keyframes bonusReady{
+0%,100%{
+ transform:scale(1);
+ box-shadow:0 0 12px rgba(255,215,0,.35);
+}
+50%{
+ transform:scale(1.08);
+ box-shadow:0 0 24px rgba(255,215,0,.9);
+}
+}
+
+@media(max-width:700px){
+.treasureWrap{
+top:76px;
+right:8px;
+gap:6px;
+}
+
+.chestCounter{
+min-width:66px;
+height:34px;
+font-size:16px;
+padding:0 8px;
+}
+}
+
+
+/* PASO 53 - énfasis visual escarabajo */
+
+.scarabEffect{
+  position:relative !important;
+  z-index:999 !important;
+  animation:scarabPulseGold 1.2s ease-in-out 2;
+}
+
+.scarabEffect img{
+  animation:scarabFloat 1.2s ease-in-out 2;
+  filter:
+    drop-shadow(0 0 8px #ffd700)
+    drop-shadow(0 0 18px rgba(255,215,0,.95));
+}
+
+.scarabEffect::before{
+  content:"+1";
+  position:absolute;
+  top:4px;
+  right:4px;
+  min-width:26px;
+  height:26px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(#fff1a8,#d4af37);
+  color:#1a1005;
+  border-radius:50%;
+  border:2px solid #fff7bd;
+  font-size:14px;
+  font-weight:900;
+  box-shadow:0 0 12px rgba(255,215,0,.9);
+  animation:scarabCoinText 1.2s ease-out forwards;
+}
+
+@keyframes scarabPulseGold{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.18);}
+}
+
+@keyframes scarabFloat{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-8px) scale(1.12);}
+}
+
+@keyframes scarabCoinText{
+  0%{opacity:0;transform:translateY(8px) scale(.6);}
+  20%{opacity:1;}
+  100%{opacity:0;transform:translateY(-24px) scale(1.1);}
+}
+
+
+/* PASO 56 - Bonus cofre */
+.bonusOverlay{
+position:fixed;
+inset:0;
+z-index:30000;
+background:rgba(0,0,0,.82);
+display:none;
+align-items:center;
+justify-content:center;
+text-align:center;
+}
+
+.bonusOverlay.show{
+display:flex;
+}
+
+.bonusBox{
+background:linear-gradient(180deg,#111827,#030712);
+border:4px solid #ffe08a;
+border-radius:28px;
+padding:22px;
+width:min(92vw,420px);
+box-shadow:0 0 60px rgba(255,215,0,.85);
+animation:bonusPop .8s ease;
+}
+
+.bonusBox h2{
+font-size:42px;
+color:#ffe08a;
+margin:6px 0;
+text-shadow:0 0 18px #ffd700;
+}
+
+.bonusChestBig{
+width:190px;
+height:190px;
+margin:0 auto;
+background:url('/assets/sprites/cofre.png') right center / 200% 100% no-repeat;
+filter:drop-shadow(0 0 22px #ffd700);
+animation:bonusChestPulse 1s ease-in-out infinite;
+}
+
+.bonusStats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:14px;
+}
+
+.bonusStat{
+background:#020617;
+border:1px solid #d4af37;
+border-radius:14px;
+padding:10px;
+color:#ffe08a;
+font-weight:900;
+}
+
+.bonusCountUp{
+font-size:34px;
+color:#ffe08a;
+font-weight:900;
+margin-top:10px;
+}
+
+@keyframes bonusPop{
+0%{transform:scale(.4);opacity:0}
+100%{transform:scale(1);opacity:1}
+}
+
+@keyframes bonusChestPulse{
+0%,100%{transform:scale(1)}
+50%{transform:scale(1.08)}
+}
+
+
+/* PASO 57 - bonus sin tapar carretel */
+.bonusOverlay{
+position:fixed !important;
+inset:auto 8px auto 8px !important;
+top:8px !important;
+z-index:30000 !important;
+background:transparent !important;
+display:none !important;
+align-items:flex-start !important;
+justify-content:center !important;
+pointer-events:none !important;
+}
+
+.bonusOverlay.show{
+display:flex !important;
+}
+
+.bonusBox{
+width:min(94vw,520px) !important;
+padding:8px 12px !important;
+border-radius:18px !important;
+display:grid !important;
+grid-template-columns:70px 1fr !important;
+gap:8px !important;
+align-items:center !important;
+background:linear-gradient(180deg,rgba(17,24,39,.96),rgba(3,7,18,.96)) !important;
+border:3px solid #ffe08a !important;
+box-shadow:0 0 28px rgba(255,215,0,.75) !important;
+}
+
+.bonusChestBig{
+width:64px !important;
+height:64px !important;
+margin:0 !important;
+}
+
+.bonusBox h2{
+font-size:24px !important;
+margin:0 !important;
+line-height:1 !important;
+}
+
+.bonusStats{
+grid-column:2 !important;
+display:grid !important;
+grid-template-columns:1fr 1fr !important;
+gap:6px !important;
+margin-top:4px !important;
+}
+
+.bonusStat{
+padding:5px !important;
+font-size:12px !important;
+border-radius:10px !important;
+}
+
+.bonusCountUp{
+grid-column:2 !important;
+font-size:22px !important;
+margin-top:2px !important;
+}
+
+@media(max-width:700px){
+.bonusOverlay{
+top:4px !important;
+left:4px !important;
+right:4px !important;
+}
+
+.bonusBox{
+grid-template-columns:54px 1fr !important;
+padding:6px 8px !important;
+}
+
+.bonusChestBig{
+width:50px !important;
+height:50px !important;
+}
+
+.bonusBox h2{
+font-size:20px !important;
+}
+
+.bonusCountUp{
+font-size:18px !important;
+}
+}
+
+
+/* PASO 58 - hombre decorativo superior */
+.decorHombre{
+position:absolute;
+left:8px;
+top:84px;
+width:92px;
+height:92px;
+z-index:21;
+background:url('/assets/sprites/hombre.png') center/contain no-repeat;
+filter:drop-shadow(0 0 12px rgba(255,215,0,.65)) drop-shadow(0 0 10px #000);
+animation:hombreIdle 2.8s ease-in-out infinite;
+pointer-events:none;
+}
+
+@keyframes hombreIdle{
+0%,100%{
+ transform:translateY(0) scale(1);
+}
+50%{
+ transform:translateY(-6px) scale(1.04);
+}
+}
+
+@media(max-width:700px){
+.decorHombre{
+left:8px;
+top:76px;
+width:70px;
+height:70px;
+}
+}
+
+
+/* PASO 59 - botón premium */
+
+#spinBtn{
+  width:140px !important;
+  height:140px !important;
+  min-width:140px !important;
+  min-height:140px !important;
+  border-radius:50% !important;
+  border:0 !important;
+  cursor:pointer !important;
+  transform-origin:center !important;
+  transition:transform .15s ease-out, filter .15s ease-out !important;
+  filter:
+    drop-shadow(0 0 12px rgba(255,215,0,.45))
+    drop-shadow(0 8px 16px rgba(0,0,0,.35)) !important;
+  animation:spinButtonIdle 2.5s ease-in-out infinite !important;
+}
+
+#spinBtn:hover{
+  transform:scale(1.06) !important;
+}
+
+#spinBtn:active,
+#spinBtn.spinPressed{
+  animation:none !important;
+  transform:scale(.92) rotate(-8deg) !important;
+  filter:
+    brightness(1.15)
+    drop-shadow(0 0 22px rgba(255,215,0,.95)) !important;
+}
+
+@keyframes spinButtonIdle{
+  0%,100%{
+    transform:scale(1);
+  }
+  50%{
+    transform:scale(1.05);
+  }
+}
+
+@media(max-width:700px){
+  #spinBtn{
+    width:115px !important;
+    height:115px !important;
+    min-width:115px !important;
+    min-height:115px !important;
+  }
+}
+
+
+/* PASO 60 - recorte visual botón */
+
+#spinBtn{
+  width:90px !important;
+  height:90px !important;
+  min-width:90px !important;
+  min-height:90px !important;
+  overflow:visible !important;
+  position:relative !important;
+  background:transparent !important;
+  border:none !important;
+  padding:0 !important;
+  margin:0 auto !important;
+}
+
+#spinBtn img,
+#spinBtn::before{
+  transform:scale(1.55) !important;
+  transform-origin:center center !important;
+}
+
+#spinBtn{
+  animation:spinBtnIdle 2.4s ease-in-out infinite !important;
+}
+
+#spinBtn:hover{
+  transform:scale(1.05) !important;
+}
+
+#spinBtn:active,
+#spinBtn.spinPressed{
+  animation:none !important;
+  transform:scale(.92) !important;
+}
+
+@keyframes spinBtnIdle{
+  0%,100%{
+    filter:drop-shadow(0 0 10px rgba(255,215,0,.35));
+  }
+
+  50%{
+    filter:
+      drop-shadow(0 0 18px rgba(255,215,0,.85))
+      brightness(1.1);
+  }
+}
+
+@media(max-width:700px){
+  #spinBtn{
+    width:78px !important;
+    height:78px !important;
+    min-width:78px !important;
+    min-height:78px !important;
+  }
+
+  #spinBtn img,
+  #spinBtn::before{
+    transform:scale(1.35) !important;
+  }
+}
+
+
+/* REPARAR BOTÓN VISIBLE */
+#spinBtn{
+  width:96px !important;
+  height:96px !important;
+  min-width:96px !important;
+  min-height:96px !important;
+  position:relative !important;
+  overflow:visible !important;
+  background:transparent !important;
+  border:0 !important;
+  padding:0 !important;
+  margin:0 auto !important;
+  font-size:0 !important;
+  color:transparent !important;
+}
+
+#spinBtn::before{
+  content:"" !important;
+  position:absolute !important;
+  inset:-42px !important;
+  background:url('/assets/sprites/boton.png') center/contain no-repeat !important;
+  pointer-events:none !important;
+  filter:drop-shadow(0 0 16px rgba(255,215,0,.75)) !important;
+  animation:spinBtnPulseFixed 2.4s ease-in-out infinite !important;
+}
+
+#spinBtn:active::before,
+#spinBtn.spinPressed::before{
+  transform:scale(.92) rotate(-6deg) !important;
+  filter:brightness(1.2) drop-shadow(0 0 24px #ffd700) !important;
+}
+
+@keyframes spinBtnPulseFixed{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.08)}
+}
+
+@media(max-width:700px){
+  #spinBtn{
+    width:82px !important;
+    height:82px !important;
+    min-width:82px !important;
+    min-height:82px !important;
+  }
+
+  #spinBtn::before{
+    inset:-34px !important;
+  }
+}
+
+
+/* PASO 63 - rodillo HD sin opacidad */
+.machine,
+.reels,
+.reelCol,
+.reelStrip,
+.symbol{
+  opacity:1 !important;
+  filter:none !important;
+  backdrop-filter:none !important;
+}
+
+.reels::before{
+  opacity:.22 !important;
+  mix-blend-mode:normal !important;
+}
+
+.symbol{
+  background:transparent !important;
+}
+
+.symbol img{
+  opacity:1 !important;
+  image-rendering:auto !important;
+  filter:
+    drop-shadow(0 0 4px rgba(0,0,0,.85))
+    drop-shadow(0 0 6px rgba(255,215,0,.35)) !important;
+  transform:translateZ(0) scale(1.06) !important;
+  backface-visibility:hidden !important;
+}
+
+.machine{
+  background-color:transparent !important;
+}
+
+
+/* PASO 64 - ajustar hombre decorativo */
+
+.decorHombre{
+  left:42px !important;
+  top:84px !important;
+  width:97px !important;
+  height:97px !important;
+}
+
+@media(max-width:700px){
+  .decorHombre{
+    left:36px !important;
+    top:76px !important;
+    width:74px !important;
+    height:74px !important;
+  }
+}
+
+
+/* PASO 65 - sprites del carretel 30% más grandes */
+.symbol{
+  overflow:visible !important;
+  position:relative !important;
+}
+
+.symbol img{
+  width:100% !important;
+  height:100% !important;
+  max-width:none !important;
+  max-height:none !important;
+  object-fit:contain !important;
+  transform:scale(1.30) translateZ(0) !important;
+  transform-origin:center center !important;
+  margin:0 !important;
+  padding:0 !important;
+  opacity:1 !important;
+  image-rendering:auto !important;
+}
+
+.reelCol{
+  overflow:hidden !important;
+}
+
+.reels{
+  overflow:hidden !important;
+}
+
+@media(max-width:700px){
+  .symbol img{
+    transform:scale(1.26) translateZ(0) !important;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<button class="playerMenuBtn" onclick="openPlayerMenu()">☰</button>
+<div id="sideOverlay" class="sideOverlay" onclick="closePlayerMenu()"></div>
+
+<div id="sideMenu" class="sideMenu">
+<h2>Menú del jugador</h2>
+
+<div class="menuItem">
+<h3>Valores de piezas</h3>
+<div class="payRow"><img src="/assets/sprites/faraon.png"><div><b>Faraón</b><br>3x, 4x y 5x · Premio grande</div></div>
+<div class="payRow"><img src="/assets/sprites/gato.png"><div><b>Anubis</b><br>3x, 4x y 5x · Premio alto</div></div>
+<div class="payRow"><img src="/assets/sprites/aguila.png"><div><b>Águila / Horus</b><br>3x, 4x y 5x · Premio medio</div></div>
+<div class="payRow"><img src="/assets/sprites/escarabajo.png"><div><b>Escarabajo</b><br>3x, 4x y 5x · Premio medio</div></div>
+<div class="payRow"><img src="/assets/sprites/jarron.png"><div><b>Jarrón</b><br>3x, 4x y 5x · Premio chico</div></div>
+<div class="payRow"><img src="/assets/sprites/pergamino.png"><div><b>Pergamino</b><br>3x, 4x y 5x · Premio chico</div></div>
+<div class="payRow"><img src="/assets/sprites/wild.png"><div><b>Wild</b><br>Sustituye símbolos y activa monedas al cofre</div></div>
+<div class="payRow"><img src="/assets/sprites/bonus.png"><div><b>Bonus</b><br>Activa eventos especiales</div></div>
+</div>
+
+<div class="menuItem">
+<h3>Solicitar crédito</h3>
+<p>Pedí una carga de crédito para jugar. Un administrador debe aprobarla.</p>
+<input id="creditAmount" type="number" placeholder="Monto a solicitar">
+<button onclick="requestCredit()">Solicitar crédito</button>
+<p id="creditMsg"></p>
+</div>
+
+<div class="menuItem">
+<h3>Retirar crédito</h3>
+<p>Solicitá retirar parte de tu saldo disponible.</p>
+<input id="withdrawMenuAmount" type="number" placeholder="Monto a retirar">
+<button onclick="requestWithdrawFromMenu()">Solicitar retiro</button>
+<p id="withdrawMenuMsg"></p>
+</div>
+
+<div class="menuItem">
+<h3>Historial de solicitudes</h3>
+<button onclick="loadMyRequests()">Actualizar historial</button>
+<div id="myRequestsBox" class="requestList">Sin cargar</div>
+</div>
+
+<button class="closeMenuBtn" onclick="closePlayerMenu()">Cerrar menú</button>
+</div>
+
+<button id="soundToggle" class="soundBtn" onclick="toggleSound()">🔊</button>
+
+<div class="wrap">
+<div id="decorHombre" class="decorHombre"></div>
+<div class="logo">
+<img src="/assets/sprites/logo.png" alt="Legacy of the Nile">
+</div>
+
+<div class="treasureWrap">
+  <div id="treasureChest" class="treasureChest"></div>
+  <div id="chestCounter" class="chestCounter">0 / 100</div>
+</div>
+
+
+<div id="loginBox" class="card login">
+<h2>Ingresar al juego</h2>
+<input id="email" value="jugador@demo.com">
+<input id="password" value="123456" type="password">
+<button onclick="login()">INGRESAR</button>
+<p id="loginMsg"></p>
+<p>Admin: <a href="/admin/" style="color:#ffe08a">/admin</a></p>
+</div>
+
+<div id="gameBox" class="card hidden">
+<div class="top">
+<div class="stat"><small>Saldo</small><b id="balance">$0</b></div>
+<div class="stat"><small>Apuesta total</small><b id="betShow">$20</b></div>
+<div class="stat"><small>Premio</small><b id="prizeShow">$0</b></div>
+<div class="stat"><small>Líneas</small><b id="lineShow">20</b></div>
+</div>
+
+<div class="machine">
+<div id="lineLayer" class="lineLayer"></div>
+<div id="reels" class="reels"></div>
+</div>
+
+<div class="betPanel">
+<div class="betBox">
+<label>Apuesta por línea</label>
+<input id="bet" type="number" value="1" min="1" oninput="updateBetTotal()">
+</div>
+<div class="betBox">
+<label>Líneas activas</label>
+<select id="lineCount" onchange="updateBetTotal()">
+<option value="1">1 línea</option>
+<option value="3">3 líneas</option>
+<option value="5">5 líneas</option>
+<option value="10">10 líneas</option>
+<option value="15">15 líneas</option>
+<option value="20" selected>20 líneas</option>
+</select>
+</div>
+</div>
+
+<div class="total" id="totalBet">Total: $20.00</div>
+
+<div class="controls">
+<button id="spinBtn" onclick="spin()">GIRAR</button>
+<button onclick="showLines()">VER LÍNEAS</button>
+</div>
+
+<div id="msg" class="msg"></div>
+
+<button onclick="logout()" style="background:#374151;color:white;margin-top:12px">Cerrar sesión</button>
+</div>
+</div>
+
+<script>
+const API="/api";
+let token=localStorage.getItem("player_token")||"";
+
+const IMG={
+A:"/assets/sprites/faraon.png",
+T:"/assets/sprites/gato.png",
+G:"/assets/sprites/aguila.png",
+C:"/assets/sprites/escarabajo.png",
+M:"/assets/sprites/jarron.png",
+F:"/assets/sprites/pergamino.png",
+B:"/assets/sprites/bonus.png",
+W:"/assets/sprites/wild.png"
+};
+const keys=Object.keys(IMG);
+
+function headers(){return {"Content-Type":"application/json","Authorization":"Bearer "+token}}
+function randCode(){return keys[Math.floor(Math.random()*keys.length)]}
+function symbolHTML(code){return `<img src="${IMG[code]||IMG.F}" alt="${code}">`}
+function getLines(){return Number(lineCount.value||20)}
+function getBet(){return Math.max(1,Number(bet.value||1))}
+function updateBetTotal(){
+ const total=getBet()*getLines();
+ betShow.textContent="$"+total.toFixed(2);
+ totalBet.textContent="Total: $"+total.toFixed(2);
+ lineShow.textContent=getLines();
+}
+
+function cellH(){return window.innerWidth<=700?95:130}
+
+function buildInitial(){
+ reels.innerHTML="";
+ for(let c=0;c<5;c++){
+  const col=document.createElement("div");
+  col.className="reelCol";
+  const strip=document.createElement("div");
+  strip.className="reelStrip";
+  for(let r=0;r<3;r++){
+   const d=document.createElement("div");
+   d.className="symbol";
+   d.innerHTML=symbolHTML(randCode());
+   strip.appendChild(d);
+  }
+  col.appendChild(strip);
+  reels.appendChild(col);
+ }
+}
+
+function drawLineSVG(lines){
+ if(!lines || !lines.length){
+  lineLayer.innerHTML="";
+  return;
+ }
+ lineLayer.innerHTML=`<svg viewBox="0 0 100 100" preserveAspectRatio="none">
+ ${lines.map((w,i)=>`<path d="${w.path||'M10 50 L30 50 L50 50 L70 50 L90 50'}" stroke="${['#ffe08a','#60a5fa','#34d399','#f472b6','#fb923c'][i%5]}" stroke-width="7" stroke-linecap="round" fill="none" style="filter:drop-shadow(0 0 6px #ffd700)"/>`).join("")}
+ </svg>`;
+}
+
+function winSet(lines){
+ const s=new Set();
+ (lines||[]).forEach(w=>(w.cells||[]).forEach(([r,c])=>s.add(r+"-"+c)));
+ return s;
+}
+
+function animateToFinal(grid, prize, winLines){
+ reels.innerHTML="";
+ lineLayer.innerHTML="";
+ const h=getCellHeightReal();
+ const wins=winSet(winLines);
+ const promises=[];
+
+ for(let c=0;c<5;c++){
+  const col=document.createElement("div");
+  col.className="reelCol";
+  const strip=document.createElement("div");
+  strip.className="reelStrip";
+
+  const randomCount=24+c*7;
+
+  for(let i=0;i<randomCount;i++){
+   const d=document.createElement("div");
+   d.className="symbol";
+   d.innerHTML=symbolHTML(randCode());
+   strip.appendChild(d);
+  }
+
+  for(let r=0;r<3;r++){
+   const d=document.createElement("div");
+   d.className="symbol "+(wins.has(r+"-"+c)?"win":"");
+   d.innerHTML=symbolHTML(grid[r][c]);
+   strip.appendChild(d);
+  }
+
+  col.appendChild(strip);
+  reels.appendChild(col);
+
+  const distance=randomCount*h;
+  const duration=1450+c*300;
+
+  strip.style.transition="none";
+  strip.style.transform="translateY(0)";
+
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+   strip.style.transition=`transform ${duration}ms cubic-bezier(.10,.72,.18,1.12)`;
+   strip.style.transform=`translateY(-${distance}px)`;
+  }));
+
+  promises.push(new Promise(resolve=>{
+   setTimeout(()=>{
+    reelStopSound(c);
+    resolve();
+   },duration+60);
+  }));
+ }
+
+ return Promise.all(promises).then(()=>drawLineSVG(winLines));
+}
+
+async function login(){
+ const r=await fetch(API+"/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:email.value,password:password.value})});
+ const j=await r.json();
+ if(!j.token){loginMsg.textContent=j.error||"Error";return}
+ token=j.token;
+ localStorage.setItem("player_token",token);
+ showGame();
+}
+
+function showGame(){
+ loginBox.classList.add("hidden");
+ gameBox.classList.remove("hidden");
+ buildInitial();
+ updateBetTotal(); updateChestCounter();
+ wallet(); updateChestCounter();
+ startEgyptMusic();
+}
+
+function logout(){
+ localStorage.removeItem("player_token");
+ location.reload();
+}
+
+async function wallet(){
+ const r=await fetch(API+"/play/wallet",{headers:headers()});
+ const j=await r.json();
+ if(j.user) balance.textContent="$"+Number(j.user.balance).toFixed(2);
+}
+
+async function spin(){
+ buttonClickSound();
+ startEgyptMusic();
+ spinBtn.disabled=true;
+ spinBtn.textContent="GIRANDO...";
+ msg.textContent="";
+ prizeShow.textContent="$0";
+ lineLayer.innerHTML="";
+ startSpinSound();
+
+ try{
+  const r=await fetch(API+"/play/spin",{
+   method:"POST",
+   headers:headers(),
+   body:JSON.stringify({bet_per_line:getBet(),lines:getLines()})
+  });
+  const j=await r.json();
+
+  stopSpinSound();
+
+  if(j.error){
+   msg.textContent=j.error;
+   spinBtn.disabled=false;
+   spinBtn.textContent="GIRAR";
+   return;
+  }
+
+  await animateToFinal(j.result.grid,Number(j.prize_amount),j.result.win_lines||[]);
+  highlightScarabs();
+  animateScarabCoins(j.result.grid);
+  triggerScarabEffect();
+
+  balance.textContent="$"+Number(j.balance_after).toFixed(2);
+  prizeShow.textContent="$"+Number(j.prize_amount).toFixed(2);
+  msg.textContent=(j.result.win_lines&&j.result.win_lines.length)
+    ? j.result.message+" · "+j.result.win_lines.map(x=>x.name+" "+x.count+"x").join(" / ")
+    : j.result.message;
+
+  if(Number(j.prize_amount)>0){
+   premiumWinEffects(j.result.grid,Number(j.prize_amount));
+  }
+
+ }catch(e){
+  stopSpinSound();
+  msg.textContent="Error de conexión.";
+ }
+
+ spinBtn.disabled=false;
+ spinBtn.textContent="GIRAR";
+}
+
+function showLines(){
+ drawLineSVG([
+  {path:"M10 50 L30 50 L50 50 L70 50 L90 50"},
+  {path:"M10 16 L30 16 L50 16 L70 16 L90 16"},
+  {path:"M10 84 L30 84 L50 84 L70 84 L90 84"},
+  {path:"M10 16 L30 50 L50 84 L70 50 L90 16"},
+  {path:"M10 84 L30 50 L50 16 L70 50 L90 84"}
+ ]);
+ setTimeout(()=>lineLayer.innerHTML="",2500);
+}
+
+/* sonidos */
+let audioCtx=null, musicOn=true, bgNodes=[], spinOsc=null;
+function getAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)(); if(audioCtx.state==="suspended")audioCtx.resume(); return audioCtx}
+function tone(f,d,type="sine",v=.04){try{const c=getAudio(),o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.value=f;o.connect(g);g.connect(c.destination);g.gain.value=v;o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.stop(c.currentTime+d+.03)}catch(e){}}
+function startEgyptMusic(){if(!musicOn||bgNodes.length)return;try{const c=getAudio(),g=c.createGain();g.gain.value=.03;g.connect(c.destination);const o=c.createOscillator();o.frequency.value=110;o.type="sine";o.connect(g);o.start();bgNodes=[o,g]}catch(e){}}
+function toggleSound(){musicOn=!musicOn;soundToggle.textContent=musicOn?"🔊":"🔇";if(musicOn)startEgyptMusic();else{bgNodes.forEach(n=>{try{n.stop&&n.stop()}catch(e){};try{n.disconnect&&n.disconnect()}catch(e){}});bgNodes=[]}}
+function startSpinSound(){try{const c=getAudio();spinOsc=c.createOscillator();const g=c.createGain();spinOsc.type="sawtooth";spinOsc.frequency.value=115;g.gain.value=.035;spinOsc.connect(g);g.connect(c.destination);spinOsc.start()}catch(e){}}
+function stopSpinSound(){try{spinOsc&&spinOsc.stop()}catch(e){} spinOsc=null}
+function reelStopSound(i){tone(220+i*35,.08,"square",.05)}
+function buttonClickSound(){tone(260,.08,"triangle",.035)}
+function premiumWinEffects(grid,amount){launchCoins(amount);showWinCharacter(grid,amount);tone(660,.2,"triangle",.06);setTimeout(()=>tone(880,.25,"triangle",.06),120)}
+function launchCoins(amount){const layer=document.createElement("div");layer.className="coinLayer";document.body.appendChild(layer);const n=Math.min(80,Math.max(25,Math.floor(amount/80)));for(let i=0;i<n;i++){const c=document.createElement("div");c.className="coin";c.textContent="🪙";c.style.left=Math.random()*100+"vw";c.style.animationDuration=(1.3+Math.random()*1.8)+"s";layer.appendChild(c)}setTimeout(()=>layer.remove(),3500)}
+function mainSymbol(grid){return grid[1][1]||"A"}
+function showWinCharacter(grid,amount){const code=mainSymbol(grid);const box=document.createElement("div");box.className="winCharacter";box.innerHTML=`<img src="${IMG[code]||IMG.A}"><b>$${Number(amount).toFixed(2)}</b>`;document.body.appendChild(box);setTimeout(()=>box.remove(),2600)}
+
+if(token) showGame(); else buildInitial();
+
+function getCellHeightReal(){
+ const reelsBox = document.getElementById("reels");
+ if(!reelsBox) return window.innerWidth <= 700 ? 95 : 130;
+ return reelsBox.clientHeight / 3;
+}
+
+
+function getSymbolCellElement(row,col){
+ const cols = document.querySelectorAll(".reelCol");
+ if(!cols[col]) return null;
+ const finalSymbols = cols[col].querySelectorAll(".symbol");
+ return finalSymbols[row] || null;
+}
+
+function findScarabPositions(grid){
+ const arr=[];
+ for(let r=0;r<3;r++){
+  for(let c=0;c<5;c++){
+   if(grid[r][c]==="C") arr.push({row:r,col:c});
+  }
+ }
+ return arr;
+}
+
+function animateCoinFromWild(row,col,index=0){
+ const cell = getSymbolCellElement(row,col);
+ const chest = document.getElementById("treasureChest");
+ if(!cell || !chest) return;
+
+ const a = cell.getBoundingClientRect();
+ const b = chest.getBoundingClientRect();
+
+ const coin = document.createElement("div");
+ coin.className = "flyCoin";
+ document.body.appendChild(coin);
+
+ const startX = a.left + a.width/2 - 22;
+ const startY = a.top + a.height/2 - 22;
+ const endX = b.left + b.width/2 - 22;
+ const endY = b.top + b.height/2 - 22;
+
+ coin.style.left = startX + "px";
+ coin.style.top = startY + "px";
+
+ const delay = index * 180;
+
+ setTimeout(()=>{
+   coin.classList.add("glow");
+   coin.animate([
+    { transform:"translate(0,0) scale(.75) rotate(0deg)", opacity:1 },
+    { transform:`translate(${(endX-startX)*0.45}px, ${(endY-startY)-80}px) scale(1.2) rotate(240deg)`, opacity:1 },
+    { transform:`translate(${endX-startX}px, ${endY-startY}px) scale(.55) rotate(720deg)`, opacity:.95 }
+   ], {
+    duration: 950,
+    easing: "cubic-bezier(.18,.78,.2,1)",
+    fill: "forwards"
+   });
+
+   setTimeout(()=>{
+    coin.remove();
+    chest.classList.add("hit");
+    addChestCoin();
+    setTimeout(()=>chest.classList.remove("hit"),700);
+    try{ reelStopSound(3); }catch(e){}
+   },950);
+ }, delay);
+}
+
+function animateScarabCoins(grid){
+ const scarabs = findScarabPositions(grid);
+ if(!scarabs.length) return;
+ scarabs.forEach((w,i)=>animateCoinFromWild(w.row,w.col,i));
+}
+
+
+function openPlayerMenu(){
+ document.getElementById("sideMenu").classList.add("open");
+ document.getElementById("sideOverlay").classList.add("open");
+ loadMyRequests();
+}
+
+function closePlayerMenu(){
+ document.getElementById("sideMenu").classList.remove("open");
+ document.getElementById("sideOverlay").classList.remove("open");
+}
+
+async function requestCredit(){
+ const amount=Number(document.getElementById("creditAmount").value||0);
+ const r=await fetch(API+"/play/request-credit",{
+  method:"POST",
+  headers:headers(),
+  body:JSON.stringify({amount})
+ });
+ const j=await r.json();
+ creditMsg.textContent=j.ok?"Solicitud de crédito enviada":(j.error||"Error");
+ loadMyRequests();
+}
+
+async function requestWithdrawFromMenu(){
+ const amount=Number(document.getElementById("withdrawMenuAmount").value||0);
+ const r=await fetch(API+"/play/request-withdrawal",{
+  method:"POST",
+  headers:headers(),
+  body:JSON.stringify({amount})
+ });
+ const j=await r.json();
+ withdrawMenuMsg.textContent=j.ok?"Solicitud de retiro enviada":(j.error||"Error");
+ if(j.balance_after!==undefined){
+  balance.textContent="$"+Number(j.balance_after).toFixed(2);
+ }
+ loadMyRequests();
+}
+
+async function loadMyRequests(){
+ if(!token) return;
+ const r=await fetch(API+"/play/my-requests",{headers:headers()});
+ const j=await r.json();
+ if(!j.ok){
+  myRequestsBox.textContent="No se pudo cargar.";
+  return;
+ }
+
+ const credits=(j.credits||[]).map(x=>`<div>Crédito $${Number(x.amount).toFixed(2)} · ${x.status}</div>`).join("");
+ const withdrawals=(j.withdrawals||[]).map(x=>`<div>Retiro $${Number(x.amount).toFixed(2)} · ${x.status}</div>`).join("");
+
+ myRequestsBox.innerHTML = "<b>Créditos</b><br>"+(credits||"Sin solicitudes")+"<br><br><b>Retiros</b><br>"+(withdrawals||"Sin solicitudes");
+}
+
+
+// PASO 38 - contador del cofre
+
+
+
+
+function getChestCoins(){
+ return Number(localStorage.getItem("slot_chest_coins") || "0");
+}
+
+function updateChestCounter(){
+ const box = document.getElementById("chestCounter");
+ if(!box) return;
+ const value = getChestCoins();
+ box.textContent = value >= 100 ? "BONUS" : value + " / 100";
+ if(value >= 100) box.classList.add("ready");
+ else box.classList.remove("ready");
+}
+
+
+
+
+function triggerScarabEffect(){
+
+  const chest =
+    document.querySelector('img[src*="cofre"]') ||
+    document.querySelector('[style*="cofre"]') ||
+    document.getElementById('treasureChest');
+
+  if(!chest) return;
+
+  const scarabs = document.querySelectorAll(
+    '.scarabCoinWin, .scarabBonus'
+  );
+
+  scarabs.forEach((scarab, i)=>{
+
+    setTimeout(()=>{
+
+      scarab.classList.add('scarab-highlight');
+
+      const s = scarab.getBoundingClientRect();
+      const c = chest.getBoundingClientRect();
+
+      const coin = document.createElement('div');
+      coin.className = 'coinFly';
+
+      coin.style.setProperty('--sx', s.left + 'px');
+      coin.style.setProperty('--sy', s.top + 'px');
+
+      coin.style.setProperty('--tx', (c.left - s.left) + 'px');
+      coin.style.setProperty('--ty', (c.top - s.top) + 'px');
+
+      document.body.appendChild(coin);
+
+      setTimeout(()=>{
+        coin.remove();
+
+        chest.classList.add('chestFlash');
+
+        setTimeout(()=>{
+          chest.classList.remove('chestFlash');
+        },500);
+
+      },900);
+
+      setTimeout(()=>{
+        scarab.classList.remove('scarab-highlight');
+      },1800);
+
+    }, i * 180);
+
+  });
+
+}
+
+
+function highlightScarabs(){
+
+  const symbols = document.querySelectorAll('img[src*="escarabajo"]');
+
+  symbols.forEach((img)=>{
+
+    const cell = img.closest(".symbol") || img.parentElement;
+
+    if(!cell) return;
+
+    cell.classList.remove("scarabEffect");
+    void cell.offsetWidth;
+    cell.classList.add("scarabEffect");
+
+    setTimeout(()=>{
+      cell.classList.remove("scarabEffect");
+    },2500);
+  });
+
+}
+
+
+// PASO 56 - Bonus automático del cofre
+
+let bonusRunning = false;
+let bonusTotalWin = 0;
+
+function showBonusOverlay(){
+ const o=document.getElementById("bonusOverlay");
+ if(o) o.classList.add("show");
+}
+
+function hideBonusOverlay(){
+ const o=document.getElementById("bonusOverlay");
+ if(o) o.classList.remove("show");
+}
+
+function setBonusNumbers(left,total){
+ const l=document.getElementById("bonusLeft");
+ const t=document.getElementById("bonusTotal");
+ const c=document.getElementById("bonusCountUp");
+
+ if(l) l.textContent=left;
+ if(t) t.textContent=Number(total).toFixed(2);
+ if(c) c.textContent="$"+Number(total).toFixed(2);
+}
+
+function animateBonusCount(from,to,duration=900){
+ const start=performance.now();
+ function tick(now){
+  const p=Math.min(1,(now-start)/duration);
+  const val=from+(to-from)*p;
+  setBonusNumbers(currentBonusLeft, val);
+  if(p<1) requestAnimationFrame(tick);
+ }
+ requestAnimationFrame(tick);
+}
+
+let currentBonusLeft = 10;
+
+async function startChestBonus(){
+ if(bonusRunning) return;
+
+ bonusRunning=true;
+ bonusTotalWin=0;
+ currentBonusLeft=10;
+
+ localStorage.setItem("slot_chest_coins","0");
+ updateChestCounter();
+
+ showBonusOverlay();
+ setBonusNumbers(10,0);
+
+ if(typeof msg !== "undefined"){
+  msg.textContent="🎁 BONUS ACTIVADO · 10 TIRADAS GRATIS";
+ }
+
+ for(let i=1;i<=10;i++){
+  currentBonusLeft=11-i;
+  setBonusNumbers(currentBonusLeft,bonusTotalWin);
+
+  await new Promise(r=>setTimeout(r,700));
+
+  const r=await fetch(API+"/play/bonus-spin",{
+    method:"POST",
+    headers:headers(),
+    body:JSON.stringify({bet_per_line:getBet ? getBet() : 1, lines:getLines ? getLines() : 20})
+  });
+
+  const j=await r.json();
+
+  if(!j.error){
+    await animateToFinal(j.result.grid,Number(j.prize_amount),j.result.win_lines||[]);
+
+    const before=bonusTotalWin;
+    bonusTotalWin+=Number(j.prize_amount||0);
+
+    animateBonusCount(before,bonusTotalWin,850);
+
+    if(typeof balance !== "undefined"){
+      balance.textContent="$"+Number(j.balance_after).toFixed(2);
+    }
+
+    if(typeof prizeShow !== "undefined"){
+      prizeShow.textContent="$"+Number(j.prize_amount||0).toFixed(2);
+    }
+  }
+
+  await new Promise(r=>setTimeout(r,950));
+ }
+
+ if(typeof msg !== "undefined"){
+  msg.textContent="🎉 BONUS FINALIZADO · Ganaste $"+bonusTotalWin.toFixed(2);
+ }
+
+ await new Promise(r=>setTimeout(r,2800));
+ hideBonusOverlay();
+ bonusRunning=false;
+}
+
+function activateBonusReady(){
+ const box = document.getElementById("chestCounter");
+
+ if(box){
+   box.classList.add("ready");
+   box.textContent="BONUS";
+ }
+
+ if(typeof msg !== "undefined"){
+   msg.textContent = "✨ BONUS LISTO ✨";
+ }
+
+ setTimeout(()=>{
+   startChestBonus();
+ }, 900);
+}
+
+function addChestCoin(){
+ let value = Number(localStorage.getItem("slot_chest_coins") || "0");
+
+ if(bonusRunning) return;
+
+ value += 1;
+
+ if(value >= 100){
+   value = 100;
+   localStorage.setItem("slot_chest_coins", String(value));
+   updateChestCounter();
+   activateBonusReady();
+   return;
+ }
+
+ localStorage.setItem("slot_chest_coins", String(value));
+ updateChestCounter();
+}
+
+</script>
+<script>
+
+// PASO 54 - Música egipcia procedural
+
+let egyptCtx = null;
+let egyptStarted = false;
+let egyptTimer = null;
+
+const egyptScale = [
+  220.00, // A3
+  261.63, // C4
+  293.66, // D4
+  329.63, // E4
+  392.00, // G4
+  440.00  // A4
+];
+
+function egyptNote(freq, duration=0.4, volume=0.03, type="triangle"){
+
+  if(!egyptCtx) return;
+
+  const osc = egyptCtx.createOscillator();
+  const gain = egyptCtx.createGain();
+
+  osc.type = type;
+  osc.frequency.value = freq;
+
+  gain.gain.setValueAtTime(0, egyptCtx.currentTime);
+  gain.gain.linearRampToValueAtTime(volume, egyptCtx.currentTime + 0.05);
+  gain.gain.exponentialRampToValueAtTime(0.001, egyptCtx.currentTime + duration);
+
+  osc.connect(gain);
+  gain.connect(egyptCtx.destination);
+
+  osc.start();
+  osc.stop(egyptCtx.currentTime + duration);
+}
+
+function egyptDrum(){
+
+  if(!egyptCtx) return;
+
+  const osc = egyptCtx.createOscillator();
+  const gain = egyptCtx.createGain();
+
+  osc.type = "sine";
+  osc.frequency.setValueAtTime(90, egyptCtx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(40, egyptCtx.currentTime + 0.18);
+
+  gain.gain.setValueAtTime(0.06, egyptCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, egyptCtx.currentTime + 0.18);
+
+  osc.connect(gain);
+  gain.connect(egyptCtx.destination);
+
+  osc.start();
+  osc.stop(egyptCtx.currentTime + 0.18);
+}
+
+function playEgyptLoop(){
+
+  if(!egyptStarted) return;
+
+  const melody = egyptScale[Math.floor(Math.random() * egyptScale.length)];
+
+  egyptNote(melody, 0.55, 0.025, "triangle");
+
+  if(Math.random() > 0.4){
+    egyptNote(melody / 2, 0.8, 0.015, "sine");
+  }
+
+  if(Math.random() > 0.55){
+    egyptDrum();
+  }
+
+  egyptTimer = setTimeout(playEgyptLoop, 900);
+}
+
+function startEgyptMusic(){
+
+  if(egyptStarted) return;
+
+  egyptCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+  egyptStarted = true;
+
+  playEgyptLoop();
+
+  console.log("🎵 Música egipcia iniciada");
+}
+
+function stopEgyptMusic(){
+
+  egyptStarted = false;
+
+  clearTimeout(egyptTimer);
+
+  if(egyptCtx){
+    egyptCtx.close();
+    egyptCtx = null;
+  }
+}
+
+document.addEventListener("click", function(){
+
+  if(!egyptStarted){
+    startEgyptMusic();
+  }
+
+},{once:true});
+
+
+// PASO 56 - Bonus automático del cofre
+
+let bonusRunning = false;
+let bonusTotalWin = 0;
+
+function showBonusOverlay(){
+ const o=document.getElementById("bonusOverlay");
+ if(o) o.classList.add("show");
+}
+
+function hideBonusOverlay(){
+ const o=document.getElementById("bonusOverlay");
+ if(o) o.classList.remove("show");
+}
+
+function setBonusNumbers(left,total){
+ const l=document.getElementById("bonusLeft");
+ const t=document.getElementById("bonusTotal");
+ const c=document.getElementById("bonusCountUp");
+
+ if(l) l.textContent=left;
+ if(t) t.textContent=Number(total).toFixed(2);
+ if(c) c.textContent="$"+Number(total).toFixed(2);
+}
+
+function animateBonusCount(from,to,duration=900){
+ const start=performance.now();
+ function tick(now){
+  const p=Math.min(1,(now-start)/duration);
+  const val=from+(to-from)*p;
+  setBonusNumbers(currentBonusLeft, val);
+  if(p<1) requestAnimationFrame(tick);
+ }
+ requestAnimationFrame(tick);
+}
+
+let currentBonusLeft = 10;
+
+async function startChestBonus(){
+ if(bonusRunning) return;
+
+ bonusRunning=true;
+ bonusTotalWin=0;
+ currentBonusLeft=10;
+
+ localStorage.setItem("slot_chest_coins","0");
+ updateChestCounter();
+
+ showBonusOverlay();
+ setBonusNumbers(10,0);
+
+ if(typeof msg !== "undefined"){
+  msg.textContent="🎁 BONUS ACTIVADO · 10 TIRADAS GRATIS";
+ }
+
+ for(let i=1;i<=10;i++){
+  currentBonusLeft=11-i;
+  setBonusNumbers(currentBonusLeft,bonusTotalWin);
+
+  await new Promise(r=>setTimeout(r,700));
+
+  const r=await fetch(API+"/play/bonus-spin",{
+    method:"POST",
+    headers:headers(),
+    body:JSON.stringify({bet_per_line:getBet ? getBet() : 1, lines:getLines ? getLines() : 20})
+  });
+
+  const j=await r.json();
+
+  if(!j.error){
+    await animateToFinal(j.result.grid,Number(j.prize_amount),j.result.win_lines||[]);
+
+    const before=bonusTotalWin;
+    bonusTotalWin+=Number(j.prize_amount||0);
+
+    animateBonusCount(before,bonusTotalWin,850);
+
+    if(typeof balance !== "undefined"){
+      balance.textContent="$"+Number(j.balance_after).toFixed(2);
+    }
+
+    if(typeof prizeShow !== "undefined"){
+      prizeShow.textContent="$"+Number(j.prize_amount||0).toFixed(2);
+    }
+  }
+
+  await new Promise(r=>setTimeout(r,950));
+ }
+
+ if(typeof msg !== "undefined"){
+  msg.textContent="🎉 BONUS FINALIZADO · Ganaste $"+bonusTotalWin.toFixed(2);
+ }
+
+ await new Promise(r=>setTimeout(r,2800));
+ hideBonusOverlay();
+ bonusRunning=false;
+}
+
+function activateBonusReady(){
+ const box = document.getElementById("chestCounter");
+
+ if(box){
+   box.classList.add("ready");
+   box.textContent="BONUS";
+ }
+
+ if(typeof msg !== "undefined"){
+   msg.textContent = "✨ BONUS LISTO ✨";
+ }
+
+ setTimeout(()=>{
+   startChestBonus();
+ }, 900);
+}
+
+function addChestCoin(){
+ let value = Number(localStorage.getItem("slot_chest_coins") || "0");
+
+ if(bonusRunning) return;
+
+ value += 1;
+
+ if(value >= 100){
+   value = 100;
+   localStorage.setItem("slot_chest_coins", String(value));
+   updateChestCounter();
+   activateBonusReady();
+   return;
+ }
+
+ localStorage.setItem("slot_chest_coins", String(value));
+ updateChestCounter();
+}
+
+</script>
+
+<div id="bonusOverlay" class="bonusOverlay">
+  <div class="bonusBox">
+    <div class="bonusChestBig"></div>
+    <h2>BONUS</h2>
+    <div class="bonusStats">
+      <div class="bonusStat">Tiradas<br><span id="bonusLeft">10</span> / 10</div>
+      <div class="bonusStat">Ganancia<br>$<span id="bonusTotal">0.00</span></div>
+    </div>
+    <div id="bonusCountUp" class="bonusCountUp">$0.00</div>
+  </div>
+</div>
+
+<script>
+
+// PASO 61 - tocar carretel para girar
+
+document.addEventListener("DOMContentLoaded", ()=>{
+
+  const reel =
+    document.querySelector(".machine") ||
+    document.querySelector(".reels") ||
+    document.querySelector(".rodillo") ||
+    document.querySelector("#rodillo");
+
+  const spinBtn = document.getElementById("spinBtn");
+
+  if(!reel || !spinBtn) return;
+
+  reel.style.cursor = "pointer";
+
+  function triggerSpin(){
+
+    if(spinBtn.disabled) return;
+
+    spinBtn.classList.add("spinPressed");
+
+    setTimeout(()=>{
+      spinBtn.classList.remove("spinPressed");
+    },180);
+
+    spinBtn.click();
+  }
+
+  reel.addEventListener("click", triggerSpin);
+  reel.addEventListener("touchstart", triggerSpin, {passive:true});
+
+});
+
+</script>
+</body>
+</html>

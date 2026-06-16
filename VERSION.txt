@@ -1,0 +1,11 @@
+Versión: estable-001
+
+Incluye:
+- Login funcionando
+- Superadmin funcionando
+- Rodillo operativo
+- Cofre de monedas
+- Escarabajos con animación
+- Sonidos activos
+- Menú del jugador
+- Sin multiplicador
