@@ -1,11 +1,12 @@
-Versión: estable-001
+Versión: estable-v1
 
-Incluye:
+Estado:
+- Juego funcionando
 - Login funcionando
 - Superadmin funcionando
-- Rodillo operativo
-- Cofre de monedas
-- Escarabajos con animación
-- Sonidos activos
-- Menú del jugador
+- Rodillo funcionando
+- Cofre funcionando
+- Escarabajos con efectos
+- Bonus del cofre funcionando
 - Sin multiplicador
+- Proyecto subido a GitHub
