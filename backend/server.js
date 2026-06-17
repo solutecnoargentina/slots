@@ -605,11 +605,15 @@ async function addFund(client, stageId, fundType, amount) {
 }
 
 async function removeFund(client, stageId, fundType, amount) {
-  await client.query(`
+  const result = await client.query(`
     UPDATE stage_funds
     SET current_amount=current_amount-$1, total_out=total_out+$1
     WHERE pool_stage_id=$2 AND fund_type=$3 AND current_amount >= $1
   `, [amount, stageId, fundType]);
+
+  if (result.rowCount === 0) {
+    throw new Error("Fondos insuficientes para pagar el premio");
+  }
 }
 
 async function getFunds(client, stageId) {
@@ -1601,8 +1605,8 @@ app.post("/api/admin/credit-requests/:id/reject", auth, soloAdminOSuper, async (
 
 app.post("/api/play/activate-multiplier", auth, async (req,res)=>{
   await pool.query(
-    "UPDATE users SET multiplier_ready=TRUE WHERE id=$1",
-    [req.user.id]
+    "INSERT INTO audit_logs (actor_user_id, action, detail) VALUES ($1,$2,$3)",
+    [req.user.id, "ACTIVATE_MULTIPLIER", { user_id: req.user.id, activated: true }]
   );
   res.json({ok:true});
 });
