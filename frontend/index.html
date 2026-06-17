@@ -9,35 +9,35 @@
 </head>
 <body>
 
-<button class="playerMenuBtn" onclick="openPlayerMenu()">☰</button>
+<button class="playerMenuBtn" onclick="openPlayerMenu()">â˜°</button>
 <div id="sideOverlay" class="sideOverlay" onclick="closePlayerMenu()"></div>
 
 <div id="sideMenu" class="sideMenu">
-<h2>Menú del jugador</h2>
+<h2>MenÃº del jugador</h2>
 
 <div class="menuItem">
 <h3>Valores de piezas</h3>
-<div class="payRow"><img src="/assets/sprites/faraon.png"><div><b>Faraón</b><br>3x, 4x y 5x · Premio grande</div></div>
-<div class="payRow"><img src="/assets/sprites/gato.png"><div><b>Anubis</b><br>3x, 4x y 5x · Premio alto</div></div>
-<div class="payRow"><img src="/assets/sprites/aguila.png"><div><b>Águila / Horus</b><br>3x, 4x y 5x · Premio medio</div></div>
-<div class="payRow"><img src="/assets/sprites/escarabajo.png"><div><b>Escarabajo</b><br>3x, 4x y 5x · Premio medio</div></div>
-<div class="payRow"><img src="/assets/sprites/jarron.png"><div><b>Jarrón</b><br>3x, 4x y 5x · Premio chico</div></div>
-<div class="payRow"><img src="/assets/sprites/pergamino.png"><div><b>Pergamino</b><br>3x, 4x y 5x · Premio chico</div></div>
-<div class="payRow"><img src="/assets/sprites/wild.png"><div><b>Wild</b><br>Sustituye símbolos y activa monedas al cofre</div></div>
+<div class="payRow"><img src="/assets/sprites/faraon.png"><div><b>FaraÃ³n</b><br>3x, 4x y 5x Â· Premio grande</div></div>
+<div class="payRow"><img src="/assets/sprites/gato.png"><div><b>Anubis</b><br>3x, 4x y 5x Â· Premio alto</div></div>
+<div class="payRow"><img src="/assets/sprites/aguila.png"><div><b>Ãguila / Horus</b><br>3x, 4x y 5x Â· Premio medio</div></div>
+<div class="payRow"><img src="/assets/sprites/escarabajo.png"><div><b>Escarabajo</b><br>3x, 4x y 5x Â· Premio medio</div></div>
+<div class="payRow"><img src="/assets/sprites/jarron.png"><div><b>JarrÃ³n</b><br>3x, 4x y 5x Â· Premio chico</div></div>
+<div class="payRow"><img src="/assets/sprites/pergamino.png"><div><b>Pergamino</b><br>3x, 4x y 5x Â· Premio chico</div></div>
+<div class="payRow"><img src="/assets/sprites/wild.png"><div><b>Wild</b><br>Sustituye sÃ­mbolos y activa monedas al cofre</div></div>
 <div class="payRow"><img src="/assets/sprites/bonus.png"><div><b>Bonus</b><br>Activa eventos especiales</div></div>
 </div>
 
 <div class="menuItem">
-<h3>Solicitar crédito</h3>
-<p>Pedí una carga de crédito para jugar. Un administrador debe aprobarla.</p>
+<h3>Solicitar crÃ©dito</h3>
+<p>PedÃ­ una carga de crÃ©dito para jugar. Un administrador debe aprobarla.</p>
 <input id="creditAmount" type="number" placeholder="Monto a solicitar">
-<button onclick="requestCredit()">Solicitar crédito</button>
+<button onclick="requestCredit()">Solicitar crÃ©dito</button>
 <p id="creditMsg"></p>
 </div>
 
 <div class="menuItem">
-<h3>Retirar crédito</h3>
-<p>Solicitá retirar parte de tu saldo disponible.</p>
+<h3>Retirar crÃ©dito</h3>
+<p>SolicitÃ¡ retirar parte de tu saldo disponible.</p>
 <input id="withdrawMenuAmount" type="number" placeholder="Monto a retirar">
 <button onclick="requestWithdrawFromMenu()">Solicitar retiro</button>
 <p id="withdrawMenuMsg"></p>
@@ -49,10 +49,10 @@
 <div id="myRequestsBox" class="requestList">Sin cargar</div>
 </div>
 
-<button class="closeMenuBtn" onclick="closePlayerMenu()">Cerrar menú</button>
+<button class="closeMenuBtn" onclick="closePlayerMenu()">Cerrar menÃº</button>
 </div>
 
-<button id="soundToggle" class="soundBtn" onclick="toggleSound()">🔊</button>
+<button id="soundToggle" class="soundBtn" onclick="toggleSound()">ðŸ”Š</button>
 
 <div class="wrap">
 <div id="decorHombre" class="decorHombre"></div>
@@ -80,7 +80,7 @@
 <div class="stat"><small>Saldo</small><b id="balance">$0</b></div>
 <div class="stat"><small>Apuesta total</small><b id="betShow">$20</b></div>
 <div class="stat"><small>Premio</small><b id="prizeShow">$0</b></div>
-<div class="stat"><small>Líneas</small><b id="lineShow">20</b></div>
+<div class="stat"><small>LÃ­neas</small><b id="lineShow">20</b></div>
 </div>
 
 <div class="machine">
@@ -90,18 +90,18 @@
 
 <div class="betPanel">
 <div class="betBox">
-<label>Apuesta por línea</label>
+<label>Apuesta por lÃ­nea</label>
 <input id="bet" type="number" value="1" min="1" oninput="updateBetTotal()">
 </div>
 <div class="betBox">
-<label>Líneas activas</label>
+<label>LÃ­neas activas</label>
 <select id="lineCount" onchange="updateBetTotal()">
-<option value="1">1 línea</option>
-<option value="3">3 líneas</option>
-<option value="5">5 líneas</option>
-<option value="10">10 líneas</option>
-<option value="15">15 líneas</option>
-<option value="20" selected>20 líneas</option>
+<option value="1">1 lÃ­nea</option>
+<option value="3">3 lÃ­neas</option>
+<option value="5">5 lÃ­neas</option>
+<option value="10">10 lÃ­neas</option>
+<option value="15">15 lÃ­neas</option>
+<option value="20" selected>20 lÃ­neas</option>
 </select>
 </div>
 </div>
@@ -110,12 +110,12 @@
 
 <div class="controls">
 <button id="spinBtn" onclick="spin()">GIRAR</button>
-<button onclick="showLines()">VER LÍNEAS</button>
+<button onclick="showLines()">VER LÃNEAS</button>
 </div>
 
 <div id="msg" class="msg"></div>
 
-<button onclick="logout()" style="background:#374151;color:white;margin-top:12px">Cerrar sesión</button>
+<button onclick="logout()" style="background:#374151;color:white;margin-top:12px">Cerrar sesiÃ³n</button>
 </div>
 </div>
 
@@ -301,7 +301,7 @@ async function spin(){
   balance.textContent="$"+Number(j.balance_after).toFixed(2);
   prizeShow.textContent="$"+Number(j.prize_amount).toFixed(2);
   msg.textContent=(j.result.win_lines&&j.result.win_lines.length)
-    ? j.result.message+" · "+j.result.win_lines.map(x=>x.name+" "+x.count+"x").join(" / ")
+    ? j.result.message+" Â· "+j.result.win_lines.map(x=>x.name+" "+x.count+"x").join(" / ")
     : j.result.message;
 
   if(Number(j.prize_amount)>0){
@@ -310,7 +310,7 @@ async function spin(){
 
  }catch(e){
   stopSpinSound();
-  msg.textContent="Error de conexión.";
+  msg.textContent="Error de conexiÃ³n.";
  }
 
  spinBtn.disabled=false;
@@ -333,13 +333,13 @@ let audioCtx=null, musicOn=true, bgNodes=[], spinOsc=null;
 function getAudio(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)(); if(audioCtx.state==="suspended")audioCtx.resume(); return audioCtx}
 function tone(f,d,type="sine",v=.04){try{const c=getAudio(),o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.value=f;o.connect(g);g.connect(c.destination);g.gain.value=v;o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.stop(c.currentTime+d+.03)}catch(e){}}
 function startEgyptMusic(){if(!musicOn||bgNodes.length)return;try{const c=getAudio(),g=c.createGain();g.gain.value=.03;g.connect(c.destination);const o=c.createOscillator();o.frequency.value=110;o.type="sine";o.connect(g);o.start();bgNodes=[o,g]}catch(e){}}
-function toggleSound(){musicOn=!musicOn;soundToggle.textContent=musicOn?"🔊":"🔇";if(musicOn)startEgyptMusic();else{bgNodes.forEach(n=>{try{n.stop&&n.stop()}catch(e){};try{n.disconnect&&n.disconnect()}catch(e){}});bgNodes=[]}}
+function toggleSound(){musicOn=!musicOn;soundToggle.textContent=musicOn?"ðŸ”Š":"ðŸ”‡";if(musicOn)startEgyptMusic();else{bgNodes.forEach(n=>{try{n.stop&&n.stop()}catch(e){};try{n.disconnect&&n.disconnect()}catch(e){}});bgNodes=[]}}
 function startSpinSound(){try{const c=getAudio();spinOsc=c.createOscillator();const g=c.createGain();spinOsc.type="sawtooth";spinOsc.frequency.value=115;g.gain.value=.035;spinOsc.connect(g);g.connect(c.destination);spinOsc.start()}catch(e){}}
 function stopSpinSound(){try{spinOsc&&spinOsc.stop()}catch(e){} spinOsc=null}
 function reelStopSound(i){tone(220+i*35,.08,"square",.05)}
 function buttonClickSound(){tone(260,.08,"triangle",.035)}
 function premiumWinEffects(grid,amount){launchCoins(amount);showWinCharacter(grid,amount);tone(660,.2,"triangle",.06);setTimeout(()=>tone(880,.25,"triangle",.06),120)}
-function launchCoins(amount){const layer=document.createElement("div");layer.className="coinLayer";document.body.appendChild(layer);const n=Math.min(80,Math.max(25,Math.floor(amount/80)));for(let i=0;i<n;i++){const c=document.createElement("div");c.className="coin";c.textContent="🪙";c.style.left=Math.random()*100+"vw";c.style.animationDuration=(1.3+Math.random()*1.8)+"s";layer.appendChild(c)}setTimeout(()=>layer.remove(),3500)}
+function launchCoins(amount){const layer=document.createElement("div");layer.className="coinLayer";document.body.appendChild(layer);const n=Math.min(80,Math.max(25,Math.floor(amount/80)));for(let i=0;i<n;i++){const c=document.createElement("div");c.className="coin";c.textContent="ðŸª™";c.style.left=Math.random()*100+"vw";c.style.animationDuration=(1.3+Math.random()*1.8)+"s";layer.appendChild(c)}setTimeout(()=>layer.remove(),3500)}
 function mainSymbol(grid){return grid[1][1]||"A"}
 function showWinCharacter(grid,amount){const code=mainSymbol(grid);const box=document.createElement("div");box.className="winCharacter";box.innerHTML=`<img src="${IMG[code]||IMG.A}"><b>$${Number(amount).toFixed(2)}</b>`;document.body.appendChild(box);setTimeout(()=>box.remove(),2600)}
 
@@ -439,7 +439,7 @@ async function requestCredit(){
   body:JSON.stringify({amount})
  });
  const j=await r.json();
- creditMsg.textContent=j.ok?"Solicitud de crédito enviada":(j.error||"Error");
+ creditMsg.textContent=j.ok?"Solicitud de crÃ©dito enviada":(j.error||"Error");
  loadMyRequests();
 }
 
@@ -467,10 +467,10 @@ async function loadMyRequests(){
   return;
  }
 
- const credits=(j.credits||[]).map(x=>`<div>Crédito $${Number(x.amount).toFixed(2)} · ${x.status}</div>`).join("");
- const withdrawals=(j.withdrawals||[]).map(x=>`<div>Retiro $${Number(x.amount).toFixed(2)} · ${x.status}</div>`).join("");
+ const credits=(j.credits||[]).map(x=>`<div>CrÃ©dito $${Number(x.amount).toFixed(2)} Â· ${x.status}</div>`).join("");
+ const withdrawals=(j.withdrawals||[]).map(x=>`<div>Retiro $${Number(x.amount).toFixed(2)} Â· ${x.status}</div>`).join("");
 
- myRequestsBox.innerHTML = "<b>Créditos</b><br>"+(credits||"Sin solicitudes")+"<br><br><b>Retiros</b><br>"+(withdrawals||"Sin solicitudes");
+ myRequestsBox.innerHTML = "<b>CrÃ©ditos</b><br>"+(credits||"Sin solicitudes")+"<br><br><b>Retiros</b><br>"+(withdrawals||"Sin solicitudes");
 }
 
 
@@ -624,7 +624,7 @@ async function startChestBonus(){
  setBonusNumbers(10,0);
 
  if(typeof msg !== "undefined"){
-  msg.textContent="🎁 BONUS ACTIVADO · 10 TIRADAS GRATIS";
+  msg.textContent="ðŸŽ BONUS ACTIVADO Â· 10 TIRADAS GRATIS";
  }
 
  for(let i=1;i<=10;i++){
@@ -662,7 +662,7 @@ async function startChestBonus(){
  }
 
  if(typeof msg !== "undefined"){
-  msg.textContent="🎉 BONUS FINALIZADO · Ganaste $"+bonusTotalWin.toFixed(2);
+  msg.textContent="ðŸŽ‰ BONUS FINALIZADO Â· Ganaste $"+bonusTotalWin.toFixed(2);
  }
 
  await new Promise(r=>setTimeout(r,2800));
@@ -679,7 +679,7 @@ function activateBonusReady(){
  }
 
  if(typeof msg !== "undefined"){
-   msg.textContent = "✨ BONUS LISTO ✨";
+   msg.textContent = "âœ¨ BONUS LISTO âœ¨";
  }
 
  setTimeout(()=>{
@@ -709,7 +709,7 @@ function addChestCoin(){
 </script>
 <script>
 
-// PASO 54 - Música egipcia procedural
+// PASO 54 - MÃºsica egipcia procedural
 
 let egyptCtx = null;
 let egyptStarted = false;
@@ -795,7 +795,7 @@ function startEgyptMusic(){
 
   playEgyptLoop();
 
-  console.log("🎵 Música egipcia iniciada");
+  console.log("ðŸŽµ MÃºsica egipcia iniciada");
 }
 
 function stopEgyptMusic(){
@@ -819,10 +819,10 @@ document.addEventListener("click", function(){
 },{once:true});
 
 
-// PASO 56 - Bonus automático del cofre
+// PASO 56 - Bonus automÃ¡tico del cofre
 
-let bonusRunning = false;
-let bonusTotalWin = 0;
+var bonusRunningLegacy = false;
+var bonusTotalWinLegacy = 0;
 
 function showBonusOverlay(){
  const o=document.getElementById("bonusOverlay");
@@ -849,20 +849,20 @@ function animateBonusCount(from,to,duration=900){
  function tick(now){
   const p=Math.min(1,(now-start)/duration);
   const val=from+(to-from)*p;
-  setBonusNumbers(currentBonusLeft, val);
+  setBonusNumbers(currentBonusLeftLegacy, val);
   if(p<1) requestAnimationFrame(tick);
  }
  requestAnimationFrame(tick);
 }
 
-let currentBonusLeft = 10;
+var currentBonusLeftLegacy = 10;
 
 async function startChestBonus(){
- if(bonusRunning) return;
+ if(bonusRunningLegacy) return;
 
- bonusRunning=true;
- bonusTotalWin=0;
- currentBonusLeft=10;
+ bonusRunningLegacy=true;
+ bonusTotalWinLegacy=0;
+ currentBonusLeftLegacy=10;
 
  localStorage.setItem("slot_chest_coins","0");
  updateChestCounter();
@@ -871,12 +871,12 @@ async function startChestBonus(){
  setBonusNumbers(10,0);
 
  if(typeof msg !== "undefined"){
-  msg.textContent="🎁 BONUS ACTIVADO · 10 TIRADAS GRATIS";
+  msg.textContent="ðŸŽ BONUS ACTIVADO Â· 10 TIRADAS GRATIS";
  }
 
  for(let i=1;i<=10;i++){
-  currentBonusLeft=11-i;
-  setBonusNumbers(currentBonusLeft,bonusTotalWin);
+  currentBonusLeftLegacy=11-i;
+  setBonusNumbers(currentBonusLeftLegacy,bonusTotalWinLegacy);
 
   await new Promise(r=>setTimeout(r,700));
 
@@ -891,10 +891,10 @@ async function startChestBonus(){
   if(!j.error){
     await animateToFinal(j.result.grid,Number(j.prize_amount),j.result.win_lines||[]);
 
-    const before=bonusTotalWin;
-    bonusTotalWin+=Number(j.prize_amount||0);
+    const before=bonusTotalWinLegacy;
+    bonusTotalWinLegacy+=Number(j.prize_amount||0);
 
-    animateBonusCount(before,bonusTotalWin,850);
+    animateBonusCount(before,bonusTotalWinLegacy,850);
 
     if(typeof balance !== "undefined"){
       balance.textContent="$"+Number(j.balance_after).toFixed(2);
@@ -909,12 +909,12 @@ async function startChestBonus(){
  }
 
  if(typeof msg !== "undefined"){
-  msg.textContent="🎉 BONUS FINALIZADO · Ganaste $"+bonusTotalWin.toFixed(2);
+  msg.textContent="ðŸŽ‰ BONUS FINALIZADO Â· Ganaste $"+bonusTotalWinLegacy.toFixed(2);
  }
 
  await new Promise(r=>setTimeout(r,2800));
  hideBonusOverlay();
- bonusRunning=false;
+ bonusRunningLegacy=false;
 }
 
 function activateBonusReady(){
@@ -926,7 +926,7 @@ function activateBonusReady(){
  }
 
  if(typeof msg !== "undefined"){
-   msg.textContent = "✨ BONUS LISTO ✨";
+   msg.textContent = "âœ¨ BONUS LISTO âœ¨";
  }
 
  setTimeout(()=>{
@@ -937,7 +937,7 @@ function activateBonusReady(){
 function addChestCoin(){
  let value = Number(localStorage.getItem("slot_chest_coins") || "0");
 
- if(bonusRunning) return;
+ if(bonusRunningLegacy) return;
 
  value += 1;
 
